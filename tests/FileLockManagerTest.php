@@ -153,8 +153,6 @@ class FileLockManagerTest extends TestCase
 
         if (!function_exists('pcntl_fork')) {
             $this->markTestSkipped('pcntl extension not available, skipping concurrent access test');
-
-            return;
         }
 
         // Fork a child process
