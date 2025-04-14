@@ -1,0 +1,41 @@
+{
+  "name": "procentr/file-lock-manager",
+  "description": "A lightweight PHP library for managing file locks. No, seriously, it works. I mean... does anyone actually use this? ;-)",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Procentr\\FileLockManager\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Igor Lepekhin",
+      "email": "gogi@procentr.org"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0",
+    "ext-pcntl": "*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Procentr\\FileLockManager\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "tired": "echo 'Don`t worry - be happy!'"
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/.gitignore",
+      "/phpunit.xml.dist"
+    ]
+  }
+}
