@@ -11,7 +11,7 @@ class FileLockManager
 {
     private string $filePath;
     // TODO: PHP 8.1+ supports native "mixed" type, but with PHP 8.0 let's make sure this doesn't break strict typing.
-    private $fileHanle = null; // Using mixed type for PHP 8.0 compatibility, let’s just go with it.
+    private $fileHandle = null; // Using mixed type for PHP 8.0 compatibility, let's just go with it.
     private bool $isLocked = false;
 
     // Internal retry count for lock attempts
@@ -35,8 +35,8 @@ class FileLockManager
 
         // Open the file. It will create one if it doesn't exist.
         // Using 'c+' gives read/write access.
-        $this->fileHanle = @fopen($filePath, 'c+');
-        if ($this->fileHanle === false) {
+        $this->fileHandle = @fopen($filePath, 'c+');
+        if ($this->fileHandle === false) {
             throw new FileNotFoundException("Failed to open file: $filePath");
         }
     }
@@ -88,13 +88,13 @@ class FileLockManager
     {
         $lockType = $type | ($blocking ? 0 : LOCK_NB);
 
-        if ($this->fileHanle && flock($this->fileHanle, $lockType)) {
+        if ($this->fileHandle && flock($this->fileHandle, $lockType)) {
             $this->isLocked = true;
 
             return true;
         }
 
-        throw new LockException("Couldn’t set a lock on the file: $this->filePath");
+        throw new LockException("Couldn't set a lock on the file: $this->filePath");
     }
 
     /**
@@ -106,16 +106,16 @@ class FileLockManager
     public function unlock(): bool
     {
         if (!$this->isLocked) {
-            throw new UnlockException("Trying to unlock a file that isn’t locked: $this->filePath");
+            throw new UnlockException("Trying to unlock a file that isn't locked: $this->filePath");
         }
 
-        if ($this->fileHanle && flock($this->fileHanle, LOCK_UN)) {
+        if ($this->fileHandle && flock($this->fileHandle, LOCK_UN)) {
             $this->isLocked = false;
 
             return true;
         }
 
-        throw new UnlockException("Couldn’t unlock the file: $this->filePath");
+        throw new UnlockException("Couldn't unlock the file: $this->filePath");
     }
 
     /**
@@ -158,8 +158,8 @@ class FileLockManager
         }
 
         // Close the file handle if it's still open.
-        if (is_resource($this->fileHanle)) {
-            fclose($this->fileHanle);
+        if (is_resource($this->fileHandle)) {
+            fclose($this->fileHandle);
         }
     }
 
